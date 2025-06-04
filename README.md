@@ -1,67 +1,65 @@
-# 📦 BKS Packing Summary (Multi-Page + Per Order)
+# 📦 BKS Packing Summary by Order
 
-This Tampermonkey script automates and summarizes the **packing status** of orders from [admin.bksmotors.com](https://admin.bksmotors.com), supporting **multi-page extraction** and **grouped summaries by order ID**.
-
----
-
-## ✅ Features
-
-- 🔄 Loops through **all available pages** in the data grid
-- 🧾 Groups and summarizes data **per order ID** (e.g., `1000007030`)
-- 📊 Shows total ordered quantity, packed quantity, balance, and values
-- 💰 Calculates and displays **total & packed value** in ₹ (INR)
-- 🧮 Summary boxes injected directly into the admin panel UI
-- 🪵 Includes **debug logs** for troubleshooting and transparency
+Tampermonkey userscript to summarize packing status and CBM per Order ID on [admin.bksmotors.com](https://admin.bksmotors.com/).
 
 ---
 
-## 📸 Example Output
+## ✨ Features
 
-If three orders exist (e.g., `1000007030`, `1000007031`, `1000007032`), the script displays:
+- 🔍 Adds a **"Summarize Orders (Multi-Page)"** button to the Packing Report page.
+- 📄 Automatically scrapes **all paginated results** (200 rows per page).
+- 📦 Groups data **by Order ID**, even if multiple orders are shown on the same page.
+- 🧮 Displays per-order summary:
+  - Total Ordered Quantity
+  - Packed Quantity
+  - Balance Quantity
+  - Order Value
+  - Packed Goods Value
+  - ✅ **Total CBM (based on unique packing box barcodes)**
 
-![Screenshot 2025-06-03 172450](https://github.com/user-attachments/assets/b6f7de34-0de6-4fc4-80d8-aa006d79c1ee)
+---
 
+## 📐 CBM Calculation
+
+- Extracts **box size** from the `.col-pack_box_items` column (e.g., `116x18x122` in cm).
+- Extracts **box barcode** from `.col-packing_box_barcode` (e.g., `VHP0033`).
+- Deduplicates based on **barcode**, ensuring CBM is calculated only once per unique box.
+- Calculates CBM using the formula:
+
+
+- Displays **total CBM** per Order ID.
+
+---
+
+## 🖥️ How to Use
+
+1. **Install Tampermonkey** browser extension (if not already).
+2. **Add this userscript** to Tampermonkey.
+3. Go to the [Packing Report page](https://admin.bksmotors.com/) on the BKS admin panel.
+4. Search for any Order ID or Name.
+5. Click **"🔍 Summarize Orders (Multi-Page)"**.
+6. See detailed summaries and total CBM at the top.
+
+---
+
+## 🛠 Debugging & Reliability
+
+- Includes debug logging (`[BKS-Summary]` prefix in browser console).
+- Handles pagination automatically via `.action-next`.
+- Includes error handling for slow page loads or missing rows.
+
+---
+
+## 📸 Screenshot
+
+> *(Add a screenshot of the UI summary here if possible)*
+
+---
 
 
 ---
 
-## 🚀 How to Use
+## 🤝 Contribute
 
-1. **Install Tampermonkey**:  
-   [Download Tampermonkey](https://www.tampermonkey.net/) for Chrome, Firefox, Edge, etc.
+Found a bug or want to add a feature? Open an issue or pull request. Contributions welcome!
 
-2. **Create New Script**:  
-   Open the Tampermonkey dashboard and click **“Create a new script”**.
-
-3. **Paste the Code**:  
-   Use the full script from this repo or your local file.
-
-4. **Save and Refresh**:  
-   Save the script, then visit [admin.bksmotors.com](https://admin.bksmotors.com) and go to the relevant page.
-
-5. **Click Button**:  
-   Click the green button that appears at the top:  
-   `🔍 Summarize Orders (Multi-Page)`
-
----
-
-## 🛠 Technical Details
-
-- Script waits for rows to load on each page
-- It automatically clicks “Next Page” if available
-- Collects data for each order across all pages
-- Injects summary containers above the grid
-- Uses CSS classes:
-  - `.col-increment_id` → Order ID
-  - `.col-qty_ordered` → Ordered Quantity
-  - `.col-packed_qty` → Packed Quantity
-  - `.col-price` → Price per unit
-
----
-
-## 📄 License
-
-This script is intended for internal use within BKS Motors admin tooling.  
-Feel free to extend or adapt it with appropriate credit.
-
----
